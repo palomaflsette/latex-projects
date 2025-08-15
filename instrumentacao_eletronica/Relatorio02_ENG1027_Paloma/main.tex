@@ -1,0 +1,204 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{color}
+\usepackage{amsfonts}
+\usepackage{epstopdf}
+\usepackage{matlab}
+\usepackage{booktabs}
+%\documentclass{book}
+\usepackage{blindtext}
+\usepackage{hyperref}
+\usepackage[brazil]{babel}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{upgreek}
+\usepackage{multicol,lipsum}
+\usepackage[a4paper,
+top=3cm, left=3cm, bottom=3cm, right=3cm]{geometry}
+\usepackage{setspace}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[table]{xcolor}
+%\usepackage{pdflscape}
+\usepackage[DIV=15]{typearea}
+\usepackage[nottoc]{tocbibind}
+\usepackage[sort,numbers]{natbib}
+%\usepackage{cite}
+\usepackage{matlab}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{epstopdf}
+\usepackage[table]{xcolor}
+\usepackage{matlab}
+
+
+\documentclass[letterpaper]{article}
+% bib pack %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+    \geometry{left=3cm,right=2cm,top=2cm,bottom=2cm}
+%
+\usepackage[spanish]{babel}
+%
+\usepackage[fixlanguage]{babelbib}
+    \bibliographystyle{babunsrt}
+%
+\usepackage{url}
+
+\begin{document}
+%\maketitle
+
+\begin{titlepage}
+	\begin{center}
+		
+
+\vspace{10pt}
+%\begin{figure}[H][!ht]
+%\centering
+%\includegraphics{puc-rio-logo.png}
+
+%\end{figure}
+\begin{figure}[!ht]
+\centering
+\includegraphics{images/puc-rio-logo.png}
+\end{figure}
+\huge{Instrumentação Eletrônica}
+        \vspace{70pt}
+        
+		\textbf{ENG1027}
+		\textbf{\large{\\ }}
+		
+		\vspace{30pt}
+		\textbf{\small{\\Atividade 02 - Aula Prática de Redução de Ruído}}
+		\vspace{75pt}
+		
+	\end{center}
+	
+	\begin{flushleft}
+		\begin{tabbing}
+			Alunos\qquad\qquad\=\>Paloma Sette - 1621595\\
+			\>Renan Sued - 1621618 \\
+			Professor\>Igor Braga de Paula\\
+	\end{tabbing}
+		  
+	\end{flushleft}
+	\begin{center}
+		%\vspace{\fill}
+		\vspace{215pt}
+		Rio de Janeiro, 04 de Maio de 2023
+	\end{center}
+\end{titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+a) O modelo de regressão é:
+$$
+\ln(prêmio) = \beta_0 + \beta_1 ida_seg + \beta_2 fem + \beta_3 pot_motor + \beta_4 ida_auto + \beta_5 ida_seg \cdot pot_motor + \beta_6 fem \cdot pot_motor + \varepsilon
+$$
+onde $\beta_0$ é a interceptação, $\varepsilon$ é o termo de erro.
+
+b) A diferença percentual entre o prêmio masculino e feminino é calculada pela diferença entre os prêmios médios previstos para homens e mulheres, ceteris paribus, ou seja, mantendo as outras variáveis constantes. Podemos escrever:
+$$
+\frac{\text{prêmio masculino} - \text{prêmio feminino}}{\text{prêmio feminino}} \times 100
+$$
+Substituindo $prêmio = e^{\ln(prêmio)}$ e usando o modelo de regressão, temos:
+\begin{align}
+\frac{\text{prêmio masculino} - \text{prêmio feminino}}{\text{prêmio feminino}} \times 100 &= \frac{e^{\beta_0 + \beta_1 ida_seg + \beta_2 + \beta_3 pot_motor + \beta_4 ida_auto + \beta_5 ida_seg \cdot pot_motor + \beta_6 fem \cdot pot_motor}-e^{\beta_0 + \beta_1 ida_seg + \beta_3 pot_motor + \beta_4 ida_auto + \beta_5 ida_seg \cdot pot_motor}}{e^{\beta_0 + \beta_1 ida_seg + \beta_3 pot_motor + \beta_4 ida_auto + \beta_5 ida_seg \cdot pot_motor}} \times 100 \
+&= \left(e^{\beta_2 + \beta_6} - 1\right) \times 100
+\end{align}
+Assim, a diferença percentual entre o prêmio masculino e feminino, ceteris paribus, é estimada pelo valor $(e^{\beta_2 + \beta_6} - 1) \times 100$. Aqui, $\beta_2$ é o coeficiente que captura o efeito do sexo (1=feminino, 0=masculino), enquanto $\beta_6$ captura o efeito da interação entre sexo e potência do motor. Observe que essa equação é válida para um nível específico de potência do motor, e deve-se substituir $\beta_6$ pelo valor apropriado caso haja interesse em calcular a diferença percentual para outros níveis de potência.
+
+\newpage
+\pagenumbering{arabic}
+
+\newpage
+
+%\newcommand{\listequationsname}{Lista de Equações}
+%\newlistof{myequations}{equ}{\listequationsname}
+%\newcommand{\myequations}[1]{%
+%\addcontentsline{equ}{myequations}{\protect\numberline{\theequation}#1}\par}
+
+%\listofmyequations
+\newpage
+
+
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\thispagestyle{empty}
+
+\newpage
+
+\section*{Introdução}
+Este relatório refere-se à segunda sequência de atividades da disciplina de Instrumentação Eletrônica (ENG1027) de 2023.1. \\
+
+Descreveremos as atividades ocorridas no laboratório cujos experimentos nos serviram para observar os impactos de determinados fenômenos que causam ruídos em determinados sistemas.\\
+
+O objetivo desta prática de redução de ruídos em ensaios experimentais é chamar a atenção para os cuidados requeridos na transmissão de sinais. Na aula são demonstrados alguns dos mecanismos básicos de interferência e apresentados métodos de redução do ruído causado pelas interferências.
+
+
+\section*{1a. Atividade}
+\textbf{Analisar a influência de fontes comuns de ruído no sinal observado no osciloscópio, (Ex.; lâmpadas fluorescentes e celulares). Descrever resultados.}\\
+
+Neste caso, tivemos o impacto direto no sinal que foi dado por ruídos que gerados por celulares e fontes de luz.
+
+
+\section*{2a. Atividade}
+\textbf{Efeitos de campo elétrico sobre o sinal: Analisar o efeito da blindagem (cabo normal, trançado e coaxial).}\\
+
+- Cabo comum (sem blindagem): \>\ ruído em $\pm 5Vpp$\\
+- Cabo coaxial (com blindagem) - gaiola de Faraday: \>\ ruído em $\pm 10mV pp$ \\
+- Cabo trançado (redução de campo magnético): \>\ ruído em $\pm 60mV pp$\\
+
+
+\section*{3a. Atividade}
+\textbf{Blindagem com caixas. (ABS e Mu-metal). Efeito do aterramento. Analisar o comportamento do sinal.}\\
+
+Neste caso, tivemos o mesmo aterramento para o sensor. Obtivemos um ruído de $\pm 5mVpp$  
+
+
+\section*{4a. Atividade}
+\textbf{Influência de diferenças na impedância do aterramento dos equipamentos. Discutir.}\\
+
+Com o terra comum em $\pm 5Vpp$, temos o melhor caso de aterramento. \\
+Com 2 terras distintos, $\pm 2Vpp$ \>\ $\longrightarrow$ \>\ um "Loop de Terra" gerando grande ruído.
+
+
+\section*{5a. Atividade}
+\textbf{Efeito de campo magnético sobre o sinal. Analisar métodos de redução: blindagem de cabos, redução da
+área de loop, redução da emissão e separação dos cabos de potência e de transmissão de sinal.}\\
+
+- Ao ligar a lâmpada, temos acoplamento de campo magnético, pois a corrente flui pelo fio gerador do ruído, gerando acoplamento magnético no circuito elétrico.\\
+
+- Então, temos $20mVpp$ com pico em $80mV$, quando ocorre o acoplamento magnético.\\
+
+Constatamos que a transmissão de energia a uma frequência de  $60Hz$ gera muito mais ruído utilizando cabo coaxial.\\
+Para melhor isolamento, utilizamos uma caixa metálica em volta do fio, reduzindo a flexibilidade.
+
+\section*{Conclusão}
+Após os conhecimentos obtidos na aula, podemos ressaltar que a redução de ruído não é algo que deve ser negligenciado em experimentos e medições, pois além de prejudicar a precisão dos resultados, pode levar a conclusões equivocadas. É fundamental adotar medidas preventivas e corretivas para minimizar o ruído, como uso de cabos blindados, redução da área de loop, isolamento dos equipamentos, entre outras. Também é importante considerar as características dos sinais, como a frequência, para saber qual tipo de cabo e blindagem utilizar. A prática de redução de ruído em ensaios experimentais é valiosa não apenas para o sucesso das medições em um laboratório, mas também para o desenvolvimento de boas práticas e conhecimentos para aplicação em outras áreas da engenharia e ciências.
+
+\newpage
+% REFERENCIAS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}
