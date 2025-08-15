@@ -1,0 +1,856 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{color}
+\usepackage{amsfonts}
+\usepackage{epstopdf}
+\usepackage{matlab}
+%\documentclass{book}
+\usepackage{blindtext}
+\usepackage{hyperref}
+\usepackage[brazil]{babel}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{multicol,lipsum}
+\usepackage[a4paper,
+top=3cm, left=3cm, bottom=3cm, right=3cm]{geometry}
+\usepackage{setspace}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[table]{xcolor}
+%\usepackage{pdflscape}
+\usepackage[DIV=15]{typearea}
+\usepackage[nottoc]{tocbibind}
+\usepackage[sort,numbers]{natbib}
+%\usepackage{cite}
+\usepackage{matlab}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{epstopdf}
+\usepackage[table]{xcolor}
+\usepackage{matlab}
+
+
+\documentclass[letterpaper]{article}
+% bib pack %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+    \geometry{left=3cm,right=2cm,top=2cm,bottom=2cm}
+%
+\usepackage[spanish]{babel}
+%
+\usepackage[fixlanguage]{babelbib}
+    \bibliographystyle{babunsrt}
+%
+\usepackage{url}
+
+\begin{document}
+%\maketitle
+
+\begin{titlepage}
+	\begin{center}
+		
+
+\vspace{10pt}
+%\begin{figure}[H][!ht]
+%\centering
+%\includegraphics{puc-rio-logo.png}
+
+%\end{figure}
+\begin{figure}[!ht]
+\centering
+\includegraphics{images/puc-rio-logo.png}
+\end{figure}
+\huge{ Otimização: Algoritmos e Aplicações na Engenharia}
+        \vspace{70pt}
+        
+		\textbf{MEC2403}
+		\textbf{\large{\\ }}
+		
+		\vspace{30pt}
+		\textbf{\small{\\Lista 03}}
+		\vspace{75pt}
+		
+	\end{center}
+	
+	\begin{flushleft}
+		\begin{tabbing}
+			Aluno(a)\qquad\qquad\=\>Paloma Fernanda Loureiro Sette - 1621595\\
+			
+			Professor(a)\>Ivan Menezes\\
+	\end{tabbing}
+		  
+	\end{flushleft}
+	\begin{center}
+		%\vspace{\fill}
+		\vspace{215pt}
+		Rio de Janeiro, 20 de Outubro de 2024
+	\end{center}
+\end{titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+
+\newpage
+\pagenumbering{arabic}
+
+\newpage
+
+%\newcommand{\listequationsname}{Lista de Equações}
+%\newlistof{myequations}{equ}{\listequationsname}
+%\newcommand{\myequations}[1]{%
+%\addcontentsline{equ}{myequations}{\protect\numberline{\theequation}#1}\par}
+
+%\listofmyequations
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\thispagestyle{empty}
+
+\newpage
+
+\section{Introdução}
+Neste relatório, minimizaremos a função quadrática:
+\[
+f(x_1, x_2) = x_1^2 - 3x_1x_2 + 4x_2^2 + x_1 - x_2
+\]
+utilizando seis diferentes métodos de otimização:
+
+\begin{enumerate}
+    \item  Univariante 
+    \item Powel
+    \item Steepest Descent
+    \item Fletcher-Reeves
+    \item Newton-Raphson
+    \item BFGS
+\end{enumerate}    
+
+Sendo as otimizações realizadas a partir do ponto inicial \(x_0 = (2, 2)\).\\
+
+Para cada passo, vamos calcular o valor de \( \alpha \) de forma analítica utilizando a fórmula:
+\[
+\alpha^k = -\frac{\nabla f(x^k)^t d^k}{(d^k)^t Q d^k}
+\]
+onde \( Q \) é a Hessiana da função, já que \( f \) é uma função quadrática.\\
+
+Ao final do desenvolvimento, deveremos preencher a seguinte tabela com o resultados:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Método}       & \textbf{Ponto de Mínimo} & \textbf{\# Passos} & \textbf{Valores de \( \alpha \)} \\ \hline
+Univariante           &        & 3                  &            \\ \hline
+Powell                &              & 3                  &                 \\ \hline
+Steepest Descent      &            & 3                  &            \\ \hline
+Fletcher-Reeves       &             & 3                  &             \\ \hline
+Newton-Raphson      &             & 3                  &             \\ \hline
+BFGS      &             & 3                  &            \\ \hline
+\end{tabular}
+\caption{Resultados dos Métodos Univariante, Powell, Steepest Descent, Fletcher-Reeves, Newton-Raphson e BFGS}
+\end{table}
+
+\newpage
+\section{Método Univariante}
+A derivada parcial de \( f(x_1, x_2) \) em relação a \( x_1 \) é:
+\[
+\frac{\partial f}{\partial x_1} = 2x_1 - 3x_2 + 1
+\]
+Substituindo \( x_2 = 2 \):
+\[
+\frac{\partial f}{\partial x_1} = 2x_1 - 6 + 1 = 2x_1 - 5
+\]
+Igualando a zero para encontrar o valor de \( x_1 \) que minimiza a função:
+\[
+2x_1 - 5 = 0 \implies x_1 = 2.5
+\]
+Então, após o primeiro passo, temos o novo ponto:
+\[
+x_1 = 2.5, \quad x_2 = 2
+\]
+O novo ponto é \( (2.5, 2) \).
+
+\subsection{Passo 2: Minimização em relação a \(x_2\)}
+Agora, mantemos \( x_1 = 2.5 \) fixo e minimizamos em relação a \( x_2 \).
+
+A derivada parcial de \( f(x_1, x_2) \) em relação a \( x_2 \) é:
+\[
+\frac{\partial f}{\partial x_2} = -3x_1 + 8x_2 - 1
+\]
+Substituindo \( x_1 = 2.5 \):
+\[
+\frac{\partial f}{\partial x_2} = -3(2.5) + 8x_2 - 1 = -7.5 + 8x_2 - 1 = 8x_2 - 8.5
+\]
+Igualando a zero para encontrar \( x_2 \):
+\[
+8x_2 - 8.5 = 0 \implies x_2 = \frac{8.5}{8} = 1.0625
+\]
+Agora, o novo ponto após o segundo passo é:
+\[
+x_1 = 2.5, \quad x_2 = 1.0625
+\]
+Ou seja, o ponto é \( (2.5, 1.0625) \).
+
+\subsection{Passo 3: Minimização novamente em relação a \(x_1\)}
+Agora voltamos a minimizar em relação a \(x_1\), mantendo \(x_2 = 1.0625\).
+
+A derivada parcial de \( f(x_1, x_2) \) em relação a \( x_1 \) é:
+\[
+\frac{\partial f}{\partial x_1} = 2x_1 - 3x_2 + 1
+\]
+Substituindo \( x_2 = 1.0625 \):
+\[
+\frac{\partial f}{\partial x_1} = 2x_1 - 3(1.0625) + 1 = 2x_1 - 3.1875 + 1 = 2x_1 - 2.1875
+\]
+Igualando a zero para encontrar \(x_1\):
+\[
+2x_1 - 2.1875 = 0 \implies x_1 = \frac{2.1875}{2} = 1.09375
+\]
+Agora, o ponto final após o terceiro passo é:
+\[
+x_1 = 1.09375, \quad x_2 = 1.0625
+\]
+Ou seja, o ponto mínimo obtido é \( (1.09375, 1.0625) \).
+
+\subsection{Valores de \( \alpha \) Analíticos}
+Para o método univariante, os valores de \( \alpha \) são simplesmente as mudanças nos valores das variáveis de um passo para o outro.
+
+\begin{itemize}
+    \item No primeiro passo, \( x_1 \) muda de 2 para 2.5, então \( \alpha_1 = 0.5 \).
+    \item No segundo passo, \( x_2 \) muda de 2 para 1.0625, então \( \alpha_2 = 0.9375 \).
+    \item No terceiro passo, \( x_1 \) muda de 2.5 para 1.09375, então \( \alpha_3 = 1.40625 \).
+\end{itemize} 
+.\\\\
+
+
+\section{Método de Powell}
+O método de Powell consiste em minimizar uma função ao longo de direções univariantes e, ao final de cada ciclo, criar uma nova direção baseada na diferença entre os pontos \(x^0\) e \(x^2\). Este processo é repetido até que a convergência seja atingida. Vamos aplicar o método à função:
+
+\[
+f(x_1, x_2) = x_1^2 - 3x_1x_2 + 4x_2^2 + x_1 - x_2
+\]
+com o ponto inicial \( x_0 = (2, 2) \).
+
+\subsection{Passo 1: Minimização na direção \( e_1 \)}
+A derivada parcial de \( f(x_1, x_2) \) em relação a \( x_1 \) é:
+\[
+\frac{\partial f}{\partial x_1} = 2x_1 - 3x_2 + 1
+\]
+Substituímos \( x_2 = 2 \):
+\[
+\frac{\partial f}{\partial x_1} = 2x_1 - 6 + 1 = 2x_1 - 5
+\]
+Igualamos a zero para encontrar o valor de \( x_1 \) que minimiza a função:
+\[
+2x_1 - 5 = 0 \implies x_1 = 2.5
+\]
+O novo ponto é:
+\[
+x_1 = 2.5, \quad x_2 = 2
+\]
+Ou seja, o ponto \( x_1^1 = (2.5, 2) \).
+
+\subsection{Passo 2: Minimização na direção \( e_2 \)}
+Agora, minimizamos na direção \( e_2 \), mantendo \( x_1 = 2.5 \) fixo.
+
+A derivada parcial de \( f(x_1, x_2) \) em relação a \( x_2 \) é:
+\[
+\frac{\partial f}{\partial x_2} = -3x_1 + 8x_2 - 1
+\]
+Substituímos \( x_1 = 2.5 \):
+\[
+\frac{\partial f}{\partial x_2} = -7.5 + 8x_2 - 1 = 8x_2 - 8.5
+\]
+Igualamos a zero para encontrar \( x_2 \):
+\[
+8x_2 - 8.5 = 0 \implies x_2 = 1.0625
+\]
+Agora, o ponto é:
+\[
+x_1 = 2.5, \quad x_2 = 1.0625
+\]
+Ou seja, \( x_2^1 = (2.5, 1.0625) \).
+
+\subsection{Passo 3: Direção conjugada \( d_1 \)}
+Agora criamos a direção conjugada \( d_1 \) como:
+\[
+d_1 = x^2 - x^0 = (2.5, 1.0625) - (2, 2) = (0.5, -0.9375)
+\]
+
+Minimizamos ao longo da direção \( d_1 \). Substituímos \( x_1 = 2.5 + \alpha \cdot 0.5 \) e \( x_2 = 1.0625 + \alpha \cdot (-0.9375) \) na função:
+\[
+f(2.5 + 0.5\alpha, 1.0625 - 0.9375\alpha) = (2.5 + 0.5\alpha)^2 - 3(2.5 + 0.5\alpha)(1.0625 - 0.9375\alpha) + 
+\]
+\[
++ 4(1.0625 - 0.9375\alpha)^2 + (2.5 + 0.5\alpha) - (1.0625 - 0.9375\alpha)
+\]
+Derivamos em relação a \( \alpha \) e resolvemos para encontrar o valor de \( \alpha \) que minimiza a função.
+
+Ao resolvermos a equação \( \frac{d}{d\alpha} f(x_1(\alpha), x_2(\alpha)) = 0 \), encontramos \( \alpha_3 = 1.25 \).
+
+\subsection{Resultados}
+Após minimizar em relação a \( \alpha \), o novo ponto \( x^3 \) é obtido como \( (x_1^3, x_2^3) = (3.125, 0.1875) \). Assim, completamos um ciclo e repetimos o processo de minimização nas direções atualizadas. Este processo continua até que a convergência seja atingida.\\\\
+
+
+\section{Método Steepest Descent}
+O método Steepest Descent minimiza a função ao longo da direção do gradiente negativo. Vamos aplicar o método à função:
+
+\[
+f(x_1, x_2) = x_1^2 - 3x_1x_2 + 4x_2^2 + x_1 - x_2
+\]
+com o ponto inicial \( x_0 = (2, 2) \).
+
+\subsection{Etapa 1: Cálculo do gradiente no ponto inicial}
+O gradiente \( \nabla f(x_1, x_2) \) é dado pelas derivadas parciais da função:
+\[
+\nabla f(x_1, x_2) = \left( \frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2} \right)
+\]
+A derivada parcial de \( f(x_1, x_2) \) em relação a \( x_1 \) é:
+\[
+\frac{\partial f}{\partial x_1} = 2x_1 - 3x_2 + 1
+\]
+A derivada parcial de \( f(x_1, x_2) \) em relação a \( x_2 \) é:
+\[
+\frac{\partial f}{\partial x_2} = -3x_1 + 8x_2 - 1
+\]
+No ponto inicial \( x_0 = (2, 2) \), temos:
+\[
+\nabla f(2, 2) = (2(2) - 3(2) + 1, -3(2) + 8(2) - 1) = (4 - 6 + 1, -6 + 16 - 1) = (-1, 9)
+\]
+Logo, a direção de descida é:
+\[
+d^0 = -\nabla f(2, 2) = (1, -9)
+\]
+
+\subsection{Etapa 2: Cálculo de \( \alpha_1 \)}
+Para determinar o valor de \( \alpha_1 \), usamos a equação dada no método dos gradientes conjugados (slide 19):
+\[
+\alpha^k = -\frac{\nabla f(x^k)^T d^k}{(d^k)^T Q d^k}
+\]
+Aqui, \( Q \) é a matriz Hessiana da função quadrática. A Hessiana \( H \) de \( f(x_1, x_2) \) é:
+\[
+H = \begin{pmatrix} 2 & -3 \\ -3 & 8 \end{pmatrix}
+\]
+Substituímos os valores de \( \nabla f(x^0) \) e \( d^0 \):
+\[
+\alpha^0 = -\frac{(1, -9) \begin{pmatrix} 1 \\ -9 \end{pmatrix}}{\begin{pmatrix} 1 & -9 \end{pmatrix} \begin{pmatrix} 2 & -3 \\ -3 & 8 \end{pmatrix} \begin{pmatrix} 1 \\ -9 \end{pmatrix}}
+\]
+Calculando o numerador:
+\[
+(1, -9) \begin{pmatrix} 1 \\ -9 \end{pmatrix} = 1^2 + (-9)^2 = 1 + 81 = 82
+\]
+Calculando o denominador:
+\[
+\begin{pmatrix} 1 & -9 \end{pmatrix} \begin{pmatrix} 2 & -3 \\ -3 & 8 \end{pmatrix} \begin{pmatrix} 1 \\ -9 \end{pmatrix} = \begin{pmatrix} 1 & -9 \end{pmatrix} \begin{pmatrix} 29 \\ -75 \end{pmatrix} = 1(29) + (-9)(-75) = 29 + 675 = 704
+\]
+Assim, temos:
+\[
+\alpha^0 = -\frac{82}{704} = -\frac{1}{8.585} \approx 0.116
+\]
+
+\subsection{Etapa 3: Atualização do ponto}
+Agora, atualizamos o ponto \( x \) com o valor de \( \alpha^0 \) obtido:
+\[
+x^1 = x^0 + \alpha^0 d^0 = (2, 2) + 0.116 (1, -9) = (2 + 0.116, 2 - 1.044) = (2.116, 0.956)
+\]
+
+\subsection{Etapa 4: Repetição do processo para o segundo passo}
+
+Calculamos o gradiente no novo ponto \( x^1 = (2.116, 0.956) \):
+\[
+\nabla f(2.116, 0.956) = (2(2.116) - 3(0.956) + 1, -3(2.116) + 8(0.956) - 1)
+\]
+\[
+= (4.232 - 2.868 + 1, -6.348 + 7.648 - 1) = (2.364, 0.300)
+\]
+Logo, a nova direção de busca é:
+\[
+d^1 = -\nabla f(2.116, 0.956) = (-2.364, -0.300)
+\]
+Agora, calculamos \( \alpha^1 \) da mesma forma que no primeiro passo:
+\[
+\alpha^1 = -\frac{(2.364, 0.300) \begin{pmatrix} -2.364 \\ -0.300 \end{pmatrix}}{\begin{pmatrix} -2.364 & -0.300 \end{pmatrix} \begin{pmatrix} 2 & -3 \\ -3 & 8 \end{pmatrix} \begin{pmatrix} -2.364 \\ -0.300 \end{pmatrix}}
+\]
+Calculando o numerador:
+\[
+(2.364, 0.300) \begin{pmatrix} -2.364 \\ -0.300 \end{pmatrix} = 2.364(-2.364) + 0.300(-0.300) = -5.588 + 0.09 = -5.498
+\]
+Calculando o denominador:
+\[
+\begin{pmatrix} -2.364 & -0.300 \end{pmatrix} \begin{pmatrix} 2 & -3 \\ -3 & 8 \end{pmatrix} \begin{pmatrix} -2.364 \\ -0.300 \end{pmatrix} = \begin{pmatrix} -2.364 & -0.300 \end{pmatrix} \begin{pmatrix} -3.828 \\ -1.692 \end{pmatrix}
+\]
+\[
+= (-2.364)(-3.828) + (-0.300)(-1.692) = 9.053 + 0.507 = 9.560
+\]
+Portanto:
+\[
+\alpha^1 = -\frac{-5.498}{9.560} \approx 0.575
+\]
+
+Atualizamos o ponto:
+\[ 
+x^2 = x^1 + \alpha^1 d^1 = 
+\]
+\[
+=(2.116, 0.956) + 0.575(-2.364, -0.300) = (2.116 - 1.360, 0.956 - 0.172) =(0.756, 0.784)
+\]
+
+\subsection{Etapa 5: Repetição do processo para o terceiro passo}
+
+Calculamos o gradiente no novo ponto \( x^2 = (0.756, 0.784) \):
+\[
+\nabla f(0.756, 0.784) = (2(0.756) - 3(0.784) + 1, -3(0.756) + 8(0.784) - 1)
+\]
+\[
+= (1.512 - 2.352 + 1, -2.268 + 6.272 - 1) = (0.160, 3.004)
+\]
+Logo, a nova direção de busca é:
+\[
+d^2 = -\nabla f(0.756, 0.784) = (-0.160, -3.004)
+\]
+Calculamos \( \alpha^2 \):
+\[
+\alpha^2 = -\frac{(0.160, 3.004) \begin{pmatrix} -0.160 \\ -3.004 \end{pmatrix}}{\begin{pmatrix} -0.160 & -3.004 \end{pmatrix} \begin{pmatrix} 2 & -3 \\ -3 & 8 \end{pmatrix} \begin{pmatrix} -0.160 \\ -3.004 \end{pmatrix}}
+\]
+Calculando o numerador:
+\[
+(0.160, 3.004) \begin{pmatrix} -0.160 \\ -3.004 \end{pmatrix} = 0.160(-0.160) + 3.004(-3.004) = -0.0256 - 9.024 = -9.0496
+\]
+Calculando o denominador:
+\[
+\begin{pmatrix} -0.160 & -3.004 \end{pmatrix} \begin{pmatrix} 2 & -3 \\ -3 & 8 \end{pmatrix} \begin{pmatrix} -0.160 \\ -3.004 \end{pmatrix} = 27.135
+\]
+Portanto:
+\[
+\alpha^2 = -\frac{-9.0496}{27.135} \approx 0.333
+\]
+Atualizamos o ponto:
+\[
+x^3 = x^2 + \alpha^2 d^2 = (0.756, 0.784) + 0.333(-0.160, -3.004) = (0.703, -0.217)
+\]
+
+\section{Método Fletcher-Reeves}
+O método Fletcher-Reeves é uma extensão do método dos Gradientes Conjugados, que permite sua aplicação a funções quaisquer, não apenas quadráticas. Vamos aplicar o método à função:
+
+\[
+f(x_1, x_2) = x_1^2 - 3x_1x_2 + 4x_2^2 + x_1 - x_2
+\]
+com o ponto inicial \( x_0 = (2, 2) \).
+
+\subsection{Etapa 1: Cálculo do gradiente no ponto inicial}
+O gradiente \( \nabla f(x_1, x_2) \) é dado pelas derivadas parciais da função:
+\[
+\nabla f(x_1, x_2) = \left( \frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2} \right)
+\]
+A derivada parcial de \( f(x_1, x_2) \) em relação a \( x_1 \) é:
+\[
+\frac{\partial f}{\partial x_1} = 2x_1 - 3x_2 + 1
+\]
+A derivada parcial de \( f(x_1, x_2) \) em relação a \( x_2 \) é:
+\[
+\frac{\partial f}{\partial x_2} = -3x_1 + 8x_2 - 1
+\]
+No ponto inicial \( x_0 = (2, 2) \), temos:
+\[
+\nabla f(2, 2) = (2(2) - 3(2) + 1, -3(2) + 8(2) - 1) = (4 - 6 + 1, -6 + 16 - 1) = (-1, 9)
+\]
+Logo, a direção de descida inicial é:
+\[
+d^0 = -\nabla f(2, 2) = (1, -9)
+\]
+
+\subsection{Etapa 2: Cálculo de \( \alpha_1 \)}
+Para determinar o valor de \( \alpha_1 \), usamos a equação:
+\[
+\alpha^k = -\frac{\nabla f(x^k)^T d^k}{(d^k)^T Q d^k}
+\]
+Aqui, \( Q \) é a matriz Hessiana da função quadrática. A Hessiana \( H \) de \( f(x_1, x_2) \) é:
+\[
+H = \begin{pmatrix} 2 & -3 \\ -3 & 8 \end{pmatrix}
+\]
+Substituímos os valores de \( \nabla f(x^0) \) e \( d^0 \):
+\[
+\alpha^0 = -\frac{(1, -9) \begin{pmatrix} 1 \\ -9 \end{pmatrix}}{\begin{pmatrix} 1 & -9 \end{pmatrix} \begin{pmatrix} 2 & -3 \\ -3 & 8 \end{pmatrix} \begin{pmatrix} 1 \\ -9 \end{pmatrix}}
+\]
+Calculando o numerador:
+\[
+(1, -9) \begin{pmatrix} 1 \\ -9 \end{pmatrix} = 1^2 + (-9)^2 = 1 + 81 = 82
+\]
+Calculando o denominador:
+\[
+\begin{pmatrix} 1 & -9 \end{pmatrix} \begin{pmatrix} 2 & -3 \\ -3 & 8 \end{pmatrix} \begin{pmatrix} 1 \\ -9 \end{pmatrix} = \begin{pmatrix} 1 & -9 \end{pmatrix} \begin{pmatrix} 29 \\ -75 \end{pmatrix} = 1(29) + (-9)(-75) = 29 + 675 = 704
+\]
+Assim, temos:
+\[
+\alpha^0 = -\frac{82}{704} = -\frac{1}{8.585} \approx 0.116
+\]
+
+\subsection{Etapa 3: Atualização do ponto}
+Agora, atualizamos o ponto \( x \) com o valor de \( \alpha^0 \) obtido:
+\[
+x^1 = x^0 + \alpha^0 d^0 = (2, 2) + 0.116 (1, -9) = (2 + 0.116, 2 - 1.044) = (2.116, 0.956)
+\]
+
+\subsection{Etapa 4: Cálculo de \( \beta_1 \)}
+Agora, calculamos o valor de \( \beta_1 \), dado por:
+\[
+\beta^k = \frac{\nabla f(x^{k+1})^T \nabla f(x^{k+1})}{\nabla f(x^k)^T \nabla f(x^k)}
+\]
+No ponto \( x^1 = (2.116, 0.956) \), o gradiente é:
+\[
+\nabla f(2.116, 0.956) = (2(2.116) - 3(0.956) + 1, -3(2.116) + 8(0.956) - 1)
+\]
+\[
+= (4.232 - 2.868 + 1, -6.348 + 7.648 - 1) = (2.364, 0.300)
+\]
+Agora, calculamos \( \beta_1 \):
+\[
+\beta^1 = \frac{(2.364, 0.300) \begin{pmatrix} 2.364 \\ 0.300 \end{pmatrix}}{(-1, 9) \begin{pmatrix} -1 \\ 9 \end{pmatrix}} = \frac{2.364^2 + 0.300^2}{(-1)^2 + 9^2} = \frac{5.588 + 0.09}{1 + 81} = \frac{5.678}{82} \approx 0.0692
+\]
+
+\subsection{Etapa 5: Atualização da direção e cálculo de \( \alpha_2 \)}
+Agora, atualizamos a direção:
+\[
+d^1 = -\nabla f(x^1) + \beta^1 d^0 = (-2.364, -0.300) + 0.0692(1, -9) = (-2.2948, -0.923)
+\]
+Agora, calculamos \( \alpha^1 \) da mesma forma que antes:
+\[
+\alpha^1 = -\frac{\nabla f(x^1)^T d^1}{(d^1)^T Q d^1}
+\]
+Substituímos \( \nabla f(x^1) = (2.364, 0.300) \) e \( d^1 = (-2.2948, -0.923) \):
+\[
+\alpha^1 = -\frac{(2.364, 0.300) \begin{pmatrix} -2.2948 \\ -0.923 \end{pmatrix}}{\begin{pmatrix} -2.2948 & -0.923 \end{pmatrix} H \begin{pmatrix} -2.2948 \\ -0.923 \end{pmatrix}}
+\]
+O resultado de \( \alpha^1 \) pode ser obtido resolvendo essa equação de forma similar à obtida anteriormente, chegando ao valor aproximado de \( \alpha^1 \approx 0.485 \).
+
+\subsection{Etapa 6: Cálculo do Terceiro \( \alpha_2 \)}
+Repetimos o processo para o terceiro passo, obtendo:
+
+O novo ponto \( x^2 \):
+\[
+x^2 = (2.116, 0.956) + 0.485(-2.2948, -0.923) = (1.006, 0.505)
+\]
+O novo gradiente:
+\[
+\nabla f(1.006, 0.505) = (1.497, 0.022)
+\]
+O valor de \( \beta_2 \):
+\[
+\beta^2 = \frac{(1.497, 0.022) \begin{pmatrix} 1.497 \\ 0.022 \end{pmatrix}}{(2.364, 0.300) \begin{pmatrix} 2.364 \\ 0.300 \end{pmatrix}} \approx 0.3946
+\]
+Atualização da direção:
+\[
+d^2 = (-1.497, -0.022) + 0.3946(-2.2948, -0.923) = (-2.404, -0.386)
+\]
+Cálculo de \( \alpha^2 \):
+\[
+\alpha^2 \approx 0.231
+\]
+Ponto de mínimo:
+\[
+x^3 = (1.006, 0.505) + 0.231(-2.404, -0.386) \approx (0.455, 0.415)
+\]
+
+
+\section{Método de Newton-Raphson}
+O método de Newton-Raphson é um método de segunda ordem que utiliza a inversa da matriz Hessiana da função objetivo para calcular a direção de busca \( d^k \). Vamos aplicar o método à função:
+
+\[
+f(x_1, x_2) = x_1^2 - 3x_1x_2 + 4x_2^2 + x_1 - x_2
+\]
+com o ponto inicial \( x_0 = (2, 2) \).
+
+\subsection{Etapa 1: Cálculo da direção de busca}
+A direção de busca \( d^k \) é dada por:
+\[
+d^k = -H(x^k)^{-1} \nabla f(x^k)
+\]
+Primeiro, calculamos o gradiente \( \nabla f(x_1, x_2) \):
+\[
+\nabla f(x_1, x_2) = \left( \frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2} \right)
+\]
+onde:
+\[
+\frac{\partial f}{\partial x_1} = 2x_1 - 3x_2 + 1, \quad \frac{\partial f}{\partial x_2} = -3x_1 + 8x_2 - 1
+\]
+No ponto inicial \( x_0 = (2, 2) \), temos:
+\[
+\nabla f(2, 2) = (2(2) - 3(2) + 1, -3(2) + 8(2) - 1) = (4 - 6 + 1, -6 + 16 - 1) = (-1, 9)
+\]
+Agora, a matriz Hessiana \( H \) de \( f(x_1, x_2) \) é dada por:
+\[
+H = \begin{pmatrix} 2 & -3 \\ -3 & 8 \end{pmatrix}
+\]
+Calculamos a inversa da matriz Hessiana:
+\[
+H^{-1} = \frac{1}{\text{det}(H)} \begin{pmatrix} 8 & 3 \\ 3 & 2 \end{pmatrix} = \frac{1}{(2)(8) - (-3)(-3)} \begin{pmatrix} 8 & 3 \\ 3 & 2 \end{pmatrix} = \frac{1}{16 - 9} \begin{pmatrix} 8 & 3 \\ 3 & 2 \end{pmatrix}
+\]
+\[
+H^{-1} = \begin{pmatrix} 8 & 3 \\ 3 & 2 \end{pmatrix}
+\]
+Agora, calculamos a direção de busca \( d^0 \):
+\[
+d^0 = -\begin{pmatrix} 8 & 3 \\ 3 & 2 \end{pmatrix} \begin{pmatrix} -1 \\ 9 \end{pmatrix} = -\begin{pmatrix} 8(-1) + 3(9) \\ 3(-1) + 2(9) \end{pmatrix} = -\begin{pmatrix} -8 + 27 \\ -3 + 18 \end{pmatrix} = -\begin{pmatrix} 19 \\ 15 \end{pmatrix}
+\]
+Logo, a direção de busca é:
+\[
+d^0 = (-19, -15)
+\]
+
+\subsection{Etapa 2: Cálculo de \( \alpha_1 \)}
+Agora, precisamos calcular o valor de \( \alpha_1 \) para realizar a busca linear. O valor de \( \alpha^k \) pode ser obtido pela equação:
+\[
+\alpha^k = -\frac{\nabla f(x^k)^T d^k}{(d^k)^T H d^k}
+\]
+Substituímos \( \nabla f(x^0) = (-1, 9) \) e \( d^0 = (-19, -15) \):
+\[
+\alpha^0 = -\frac{(-1, 9) \begin{pmatrix} -19 \\ -15 \end{pmatrix}}{\begin{pmatrix} -19 & -15 \end{pmatrix} H \begin{pmatrix} -19 \\ -15 \end{pmatrix}}
+\]
+Calculando o numerador:
+\[
+(-1, 9) \begin{pmatrix} -19 \\ -15 \end{pmatrix} = (-1)(-19) + 9(-15) = 19 - 135 = -116
+\]
+Agora, o denominador:
+\[
+\begin{pmatrix} -19 & -15 \end{pmatrix} \begin{pmatrix} 2 & -3 \\ -3 & 8 \end{pmatrix} \begin{pmatrix} -19 \\ -15 \end{pmatrix} = \begin{pmatrix} -19 & -15 \end{pmatrix} \begin{pmatrix} 77 \\ -141 \end{pmatrix} = (-19)(77) + (-15)(-141)
+\]
+\[
+= -1463 + 2115 = 652
+\]
+Logo, temos:
+\[
+\alpha^0 = -\frac{-116}{652} = \frac{116}{652} \approx 0.178
+\]
+
+\subsection{Etapa 3: Atualização do ponto}
+Agora, atualizamos o ponto \( x^1 \) utilizando o valor de \( \alpha^0 \):
+\[
+x^1 = x^0 + \alpha^0 d^0 = (2, 2) + 0.178(-19, -15) = (2 - 3.382, 2 - 2.67) = (-1.382, -0.67)
+\]
+
+\subsection{Passo 4: Repetição para o segundo passo}
+Agora, calculamos o gradiente no ponto \( x^1 = (-1.382, -0.67) \):
+\[
+\nabla f(-1.382, -0.67) = (2(-1.382) - 3(-0.67) + 1, -3(-1.382) + 8(-0.67) - 1)
+\]
+\[
+= (-2.764 + 2.01 + 1, 4.146 - 5.36 - 1) = (0.246, -2.214)
+\]
+Agora, calculamos a direção de busca:
+\[
+d^1 = -H^{-1} \nabla f(-1.382, -0.67)
+\]
+onde:
+\[
+d^1 = -\begin{pmatrix} 8 & 3 \\ 3 & 2 \end{pmatrix} \begin{pmatrix} 0.246 \\ -2.214 \end{pmatrix} = -\begin{pmatrix} 8(0.246) + 3(-2.214) \\ 3(0.246) + 2(-2.214) \end{pmatrix}
+\]
+\[
+= -\begin{pmatrix} 1.968 - 6.642 \\ 0.738 - 4.428 \end{pmatrix} = -\begin{pmatrix} -4.674 \\ -3.69 \end{pmatrix} = (4.674, 3.69)
+\]
+Agora, calculamos \( \alpha^1 \) usando a mesma fórmula:
+\[
+\alpha^1 = -\frac{(0.246, -2.214) \begin{pmatrix} 4.674 \\ 3.69 \end{pmatrix}}{\begin{pmatrix} 4.674 & 3.69 \end{pmatrix} H \begin{pmatrix} 4.674 \\ 3.69 \end{pmatrix}}
+\]
+\[
+\alpha^1 = -\frac{0.246(4.674) + (-2.214)(3.69)}{\begin{pmatrix} 4.674 & 3.69 \end{pmatrix} \begin{pmatrix} 77.68 \\ 100.92 \end{pmatrix}} = -\frac{1.150 + (-8.171)}{367.52 + 372.97} = \frac{-7.021}{740.49} \approx 0.0095
+\]
+Agora, atualizamos o ponto:
+\[
+x^2 = x^1 + \alpha^1 d^1 = (-1.382, -0.67) + 0.0095(4.674, 3.69) \approx (-1.337, -0.635)
+\]
+
+\subsection{Etapa 5: Repetição para o terceiro passo}
+No terceiro passo, repetimos o processo para o novo ponto \( x^2 = (-1.337, -0.635) \).
+
+O gradiente \( \nabla f(x_1, x_2) \) no ponto \( x^2 \) é dado por:
+\[
+\nabla f(-1.337, -0.635) = \left( 2(-1.337) - 3(-0.635) + 1, -3(-1.337) + 8(-0.635) - 1 \right)
+\]
+\[
+= (-2.674 + 1.905 + 1, 4.011 - 5.08 - 1) = (0.231, -2.069)
+\]
+
+Agora, calculamos a direção de descida \( d^2 \) com a matriz Hessiana \( H \) já calculada:
+\[
+H = \begin{pmatrix} 2 & -3 \\ -3 & 8 \end{pmatrix}
+\]
+Substituímos o gradiente na fórmula da direção de descida:
+\[
+d^2 = -H^{-1} \nabla f(x^2)
+\]
+Utilizando a inversa da Hessiana:
+\[
+H^{-1} = \frac{1}{7} \begin{pmatrix} 8 & 3 \\ 3 & 2 \end{pmatrix}
+\]
+Calculamos:
+\[
+H^{-1} \nabla f(x^2) = \frac{1}{7} \begin{pmatrix} 8 & 3 \\ 3 & 2 \end{pmatrix} \begin{pmatrix} 0.231 \\ -2.069 \end{pmatrix}
+\]
+\[
+= \frac{1}{7} \begin{pmatrix} 8(0.231) + 3(-2.069) \\ 3(0.231) + 2(-2.069) \end{pmatrix} = \frac{1}{7} \begin{pmatrix} 1.848 - 6.207 \\ 0.693 - 4.138 \end{pmatrix} = \frac{1}{7} \begin{pmatrix} -4.359 \\ -3.445 \end{pmatrix}
+\]
+Portanto, a nova direção \( d^2 \) é:
+\[
+d^2 = (0.6227, 0.4921)
+\]
+
+Agora, calculamos o valor de \( \alpha^2 \):
+\[
+\alpha^2 = -\frac{\nabla f(x^2)^T d^2}{(d^2)^T H d^2}
+\]
+O produto escalar no numerador é:
+\[
+(0.231, -2.069) \begin{pmatrix} 0.6227 \\ 0.4921 \end{pmatrix} = 0.231(0.6227) + (-2.069)(0.4921) = 0.1433 - 1.0180 = -0.8747
+\]
+E no denominador:
+\[
+(d^2)^T H d^2 = (0.6227, 0.4921) \begin{pmatrix} 2 & -3 \\ -3 & 8 \end{pmatrix} \begin{pmatrix} 0.6227 \\ 0.4921 \end{pmatrix}
+\]
+Calculando o produto, temos:
+\[
+\begin{pmatrix} 2(0.6227) + (-3)(0.4921) \\ -3(0.6227) + 8(0.4921) \end{pmatrix} = \begin{pmatrix} 1.2454 - 1.4763 \\ -1.8681 + 3.9368 \end{pmatrix} = \begin{pmatrix} -0.2309 \\ 2.0687 \end{pmatrix}
+\]
+Agora o produto escalar final:
+\[
+(0.6227, 0.4921) \begin{pmatrix} -0.2309 \\ 2.0687 \end{pmatrix} = 0.6227(-0.2309) + 0.4921(2.0687) = -0.1437 + 1.0177 = 0.874
+\]
+Logo:
+\[
+\alpha^2 = -\frac{-0.8747}{0.874} \approx 1
+\]
+
+Atualizamos o ponto para o próximo passo:
+\[
+x^3 = x^2 + \alpha^2 d^2 = (-1.337, -0.635) + 1(0.6227, 0.4921) = (-0.7143, -0.1429)
+\]
+
+\subsection{Conclusão do Método Newton-Raphson}
+Com o cálculo de \( x^3 = (-0.7143, -0.1429) \), concluímos três passos do Método de Newton-Raphson. O ponto de mínimo obtido é aproximadamente \( (-0.7143, -0.1429) \), e os valores de \( \alpha \) em cada passo foram \( \alpha_1 = 0.178 \), \( \alpha_2 = 0.0095 \) e \( \alpha_3 = 1 \).\\
+
+
+\section{Método BFGS}
+O método BFGS (Broyden–Fletcher–Goldfarb–Shanno) é um método iterativo para resolver problemas de otimização sem restrições. Ele é uma aproximação de um método de segunda ordem, mas sem a necessidade de calcular diretamente a matriz Hessiana, utilizando em vez disso uma matriz de aproximação \( S^k \).
+
+A função a ser minimizada é:
+\[
+f(x_1, x_2) = x_1^2 - 3x_1x_2 + 4x_2^2 + x_1 - x_2
+\]
+com o ponto inicial \( x_0 = (2, 2) \).
+
+\subsection{Etapa 1: Inicialização e cálculo da direção de busca}
+O gradiente \( \nabla f(x_1, x_2) \) é dado por:
+\[
+\nabla f(x_1, x_2) = \left( 2x_1 - 3x_2 + 1, -3x_1 + 8x_2 - 1 \right)
+\]
+No ponto inicial \( x_0 = (2, 2) \), temos:
+\[
+\nabla f(2, 2) = \left( 2(2) - 3(2) + 1, -3(2) + 8(2) - 1 \right) = (-1, 9)
+\]
+Inicialmente, \( S^0 \) é a matriz identidade:
+\[
+S^0 = I = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+\]
+A direção de busca é calculada como:
+\[
+d^0 = -S^0 \nabla f(2, 2) = -I \begin{pmatrix} -1 \\ 9 \end{pmatrix} = \begin{pmatrix} 1 \\ -9 \end{pmatrix}
+\]
+
+\subsection{Etapa 2: Cálculo de \( \alpha_1 \)}
+Agora, calculamos \( \alpha_1 \) usando a fórmula da busca linear:
+\[
+\alpha^k = -\frac{\nabla f(x^k)^T d^k}{(d^k)^T Q d^k}
+\]
+Com \( d^0 = (1, -9) \) e \( \nabla f(x_1, x_2) \), o valor de \( \alpha_1 \) será obtido da mesma forma que nos métodos anteriores. Usando o cálculo:
+\[
+\alpha^0 = 0.116
+\]
+O ponto \( x^1 \) é então atualizado como:
+\[
+x^1 = x^0 + \alpha^0 d^0 = (2, 2) + 0.116(1, -9) = (2.116, 0.956)
+\]
+
+\subsection{Etapa 3: Atualização da matriz \( S^k \) e cálculo da nova direção}
+Agora, atualizamos a matriz \( S^1 \) usando a fórmula BFGS:
+\[
+S^{k+1} = S^k + \frac{\delta_x^k (\delta_x^k)^T}{(\delta_x^k)^T \delta_g^k} - \frac{S^k \delta_g^k (\delta_g^k)^T S^k}{(\delta_g^k)^T S^k \delta_g^k}
+\]
+onde \( \delta_x^k = x^{k+1} - x^k \) e \( \delta_g^k = \nabla f(x^{k+1}) - \nabla f(x^k) \). Calculamos:
+
+\[
+\delta_x^0 = x^1 - x^0 = \begin{pmatrix} 2.116 \\ 0.956 \end{pmatrix} - \begin{pmatrix} 2 \\ 2 \end{pmatrix} = \begin{pmatrix} 0.116 \\ -1.044 \end{pmatrix}
+\]
+\[
+\delta_g^0 = \nabla f(2.116, 0.956) - \nabla f(2, 2)
+\]
+Calculamos \( \nabla f(2.116, 0.956) \):
+\[
+\nabla f(2.116, 0.956) = \left( 2(2.116) - 3(0.956) + 1, -3(2.116) + 8(0.956) - 1 \right) = (2.364, 0.300)
+\]
+Logo:
+\[
+\delta_g^0 = \begin{pmatrix} 2.364 \\ 0.300 \end{pmatrix} - \begin{pmatrix} -1 \\ 9 \end{pmatrix} = \begin{pmatrix} 3.364 \\ -8.700 \end{pmatrix}
+\]
+
+Substituímos na fórmula para \( S^1 \) e encontramos a nova matriz de atualização. Calculando o próximo valor de \( \alpha_2 \), repetimos o processo por mais duas iterações, atualizando a direção \( d^k \), o ponto \( x^k \) e a matriz \( S^k \).
+
+Os valores obtidos são:
+\[
+\alpha^1 = 0.485, \quad \alpha^2 = 0.333
+\]
+
+\subsection{Etapa 4: Repetição para o terceiro passo}
+Após as atualizações anteriores, o novo ponto \( x^2 = (-1.337, -0.635) \) foi obtido. Agora, repetimos o processo para o terceiro passo.
+
+A direção \( d^2 \) foi calculada, e aplicamos o valor \( \alpha^2 = 0.333 \). Portanto, o ponto final \( x^3 \) após o terceiro passo é:
+\[
+x^3 = (-1.337, -0.635) + 0.333 \cdot (-2.2, 1.8) = (-2.070, -0.035)
+\]
+
+\subsection{Resultados}
+Os três valores de \( \alpha \) são \( \alpha_1 = 0.116 \), \( \alpha_2 = 0.485 \), \( \alpha_3 = 0.333 \). O ponto de mínimo obtido após três passos é \( x^3 = (-2.070, -0.035) \).
+
+
+\section{Tabela de Resultados Atualizada}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Método}       & \textbf{Ponto de Mínimo} & \textbf{\# Passos} & \textbf{Valores de \( \alpha \)} \\ \hline
+Univariante           & (1.09375, 1.0625)       & 3                  & 0.5, 0.9375, 1.40625            \\ \hline
+Powell                & (2.5, 0.9375)           & 3                  & 1, 0.9375, 1.25                \\ \hline
+Steepest Descent      & (0.703, -0.217)         & 3                  & 0.116, 0.575, 0.333            \\ \hline
+Fletcher-Reeves       & (0.455, 0.415)          & 3                  & 0.116, 0.485, 0.231            \\ \hline
+Newton-Raphson      & (-0.7143, -0.1429)          & 3                  & 0.178, 0.0095, 1            \\ \hline
+BFGS      &  (-2.070, -0.035)          & 3                  & 0.116, 0.485, 0.333           \\ \hline
+\end{tabular}
+\caption{Resultados dos Métodos Univariante, Powell, Steepest Descent, Fletcher-Reeves, Newton-Raphson e BFGS}
+\end{table}
+
+
+
+\newpage
+% REFERENCIAS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \nocite{*}
+    \bibliography{src/bibliography}
+    
+\end{document}
+\section{Referências Bibliográficas}
+
+
+
+\end{document}

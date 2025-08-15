@@ -1,0 +1,370 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{color}
+\usepackage{amsfonts}
+\usepackage{epstopdf}
+\usepackage{matlab}
+\usepackage{booktabs}
+%\documentclass{book}
+\usepackage{blindtext}
+\usepackage{hyperref}
+\usepackage[brazil]{babel}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{upgreek}
+\usepackage{multicol,lipsum}
+\usepackage[a4paper,
+top=3cm, left=3cm, bottom=3cm, right=3cm]{geometry}
+\usepackage{setspace}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[table]{xcolor}
+%\usepackage{pdflscape}
+\usepackage[DIV=15]{typearea}
+\usepackage[nottoc]{tocbibind}
+\usepackage[sort,numbers]{natbib}
+%\usepackage{cite}
+\usepackage{matlab}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{epstopdf}
+\usepackage[table]{xcolor}
+\usepackage{matlab}
+
+
+
+
+
+\documentclass[letterpaper]{article}
+% bib pack %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+    \geometry{left=3cm,right=2cm,top=2cm,bottom=2cm}
+%
+\usepackage[spanish]{babel}
+%
+\usepackage[fixlanguage]{babelbib}
+    \bibliographystyle{babunsrt}
+%
+\usepackage{url}
+
+\begin{document}
+%\maketitle
+
+\begin{titlepage}
+	\begin{center}
+		
+
+\vspace{10pt}
+%\begin{figure}[H][!ht]
+%\centering
+%\includegraphics{puc-rio-logo.png}
+
+%\end{figure}
+\begin{figure}[!ht]
+\centering
+\includegraphics{images/puc-rio-logo.png}
+\end{figure}
+\huge{Otimização: Algoritmos e Aplicações na Engenharia}
+        \vspace{70pt}
+        
+		\textbf{MEC2403}
+		\textbf{\large{\\ }}
+		
+		\vspace{30pt}
+		\textbf{\small{\\Lista 01}}
+		\vspace{75pt}
+		
+	\end{center}
+	
+	\begin{flushleft}
+		\begin{tabbing}
+		Alunos\qquad\qquad\=\>Paloma Sette - 1621595\\
+			
+			Professor(a)\>Ivan Menezes\\
+	\end{tabbing}
+		  
+	\end{flushleft}
+	\begin{center}
+		%\vspace{\fill}
+		\vspace{215pt}
+		Rio de Janeiro, 03 de Setembro de 2024
+	\end{center}
+\end{titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+
+\newpage
+\pagenumbering{arabic}
+
+\newpage
+
+%\newcommand{\listequationsname}{Lista de Equações}
+%\newlistof{myequations}{equ}{\listequationsname}
+%\newcommand{\myequations}[1]{%
+%\addcontentsline{equ}{myequations}{\protect\numberline{\theequation}#1}\par}
+
+%\listofmyequations
+\newpage
+
+
+\newpage
+
+\thispagestyle{empty}
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\thispagestyle{empty}
+
+\newpage
+
+\section{Questão 1 - Matriz Hessiana}
+
+Dada a função \( f(x_1, x_2) \):
+
+\[
+f(x_1, x_2) = (11 - x_1 - x_2)^2 + (1 + x_1 + 10x_2 - x_1x_2)^2
+\]
+
+Primeiro, calculamos as derivadas parciais de \( f \) em relação a \( x_1 \) e \( x_2 \).
+
+\subsection{Derivada parcial em relação a \( x_1 \)}
+
+\[
+f_{x_1} = \frac{\partial}{\partial x_1} \left[(11 - x_1 - x_2)^2 + (1 + x_1 + 10x_2 - x_1x_2)^2\right]
+\]
+
+Primeiro termo:
+
+\[
+\frac{\partial}{\partial x_1} \left[(11 - x_1 - x_2)^2\right] = 2(11 - x_1 - x_2)(-1) = -2(11 - x_1 - x_2)
+\]
+
+Segundo termo:
+
+\[
+\frac{\partial}{\partial x_1} \left[(1 + x_1 + 10x_2 - x_1x_2)^2\right] = 2(1 + x_1 + 10x_2 - x_1x_2)(1 - x_2)
+\]
+
+Somando os termos:
+
+\[
+f_{x_1} = -2(11 - x_1 - x_2) + 2(1 + x_1 + 10x_2 - x_1x_2)(1 - x_2)
+\]
+
+\subsection{Derivada parcial em relação a \( x_2 \)}
+
+\[
+f_{x_2} = \frac{\partial}{\partial x_2} \left[(11 - x_1 - x_2)^2 + (1 + x_1 + 10x_2 - x_1x_2)^2\right]
+\]
+
+Primeiro termo:
+
+\[
+\frac{\partial}{\partial x_2} \left[(11 - x_1 - x_2)^2\right] = 2(11 - x_1 - x_2)(-1) = -2(11 - x_1 - x_2)
+\]
+
+Segundo termo:
+
+\[
+\frac{\partial}{\partial x_2} \left[(1 + x_1 + 10x_2 - x_1x_2)^2\right] = 2(1 + x_1 + 10x_2 - x_1x_2)(10 - x_1)
+\]
+
+Somando os termos:
+
+\[
+f_{x_2} = -2(11 - x_1 - x_2) + 2(1 + x_1 + 10x_2 - x_1x_2)(10 - x_1)
+\]
+
+\subsection{Segundas Derivadas Parciais (Matriz Hessiana)}
+
+Agora, calculamos as segundas derivadas parciais:
+
+\subsubsection{\( f_{x_1x_1} \) (Derivada de \( f_{x_1} \) em relação a \( x_1 \))}
+
+\[
+f_{x_1x_1} = \frac{\partial}{\partial x_1} \left[-2(11 - x_1 - x_2) + 2(1 + x_1 + 10x_2 - x_1x_2)(1 - x_2)\right]
+\]
+
+Simplificando:
+
+\[
+f_{x_1x_1} = 2(1 - x_2)^2
+\]
+
+\subsubsection{\( f_{x_1x_2} \) (Derivada de \( f_{x_1} \) em relação a \( x_2 \))}
+
+\[
+f_{x_1x_2} = \frac{\partial}{\partial x_2} \left[-2(11 - x_1 - x_2) + 2(1 + x_1 + 10x_2 - x_1x_2)(1 - x_2)\right]
+\]
+
+Simplificando:
+
+\[
+f_{x_1x_2} = -2 + 2(1 - 2x_2 + x_1)
+\]
+
+\subsubsection{\( f_{x_2x_1} \) (Derivada de \( f_{x_2} \) em relação a \( x_1 \))}
+
+\[
+f_{x_2x_1} = \frac{\partial}{\partial x_1} \left[-2(11 - x_1 - x_2) + 2(1 + x_1 + 10x_2 - x_1x_2)(10 - x_1)\right]
+\]
+
+Simplificando:
+
+\[
+f_{x_2x_1} = -2 + 2(1 - 2x_1 + x_2)
+\]
+
+\subsubsection{\( f_{x_2x_2} \) (Derivada de \( f_{x_2} \) em relação a \( x_2 \))}
+
+\[
+f_{x_2x_2} = \frac{\partial}{\partial x_2} \left[-2(11 - x_1 - x_2) + 2(1 + x_1 + 10x_2 - x_1x_2)(10 - x_1)\right]
+\]
+
+Simplificando:
+
+\[
+f_{x_2x_2} = 2(10 - x_1)^2
+\]
+
+\subsection{Matriz Hessiana \( H \)}
+
+A matriz Hessiana \( H \) é dada por:
+
+\[
+H = \begin{pmatrix}
+f_{x_1x_1} & f_{x_1x_2} \\
+f_{x_2x_1} & f_{x_2x_2}
+\end{pmatrix}
+= \begin{pmatrix}
+2(1 - x_2)^2 & -2 + 2(1 - 2x_2 + x_1) \\
+-2 + 2(1 - 2x_1 + x_2) & 2(10 - x_1)^2
+\end{pmatrix}
+\]
+
+
+\newpage
+\section{Questão 2 - Classificação da Matriz Hessiana}
+Vamos classificar a matriz Hessiana da função \( f(x_1, x_2) \) quanto à sua positividade, quando avaliada nos pontos \( P_1 = (13, 4) \) e \( P_2 = (10, 1) \).
+
+\subsection{Matriz Hessiana \( H \)}
+
+A matriz Hessiana da função \( f(x_1, x_2) \) foi calculada anteriormente como:
+
+\[
+H = \begin{pmatrix}
+2(1 - x_2)^2 & -2 + 2(1 - 2x_2 + x_1) \\
+-2 + 2(1 - 2x_1 + x_2) & 2(10 - x_1)^2
+\end{pmatrix}
+\]
+
+\subsection{Avaliação nos Pontos Específicos}
+
+\subsubsection{No ponto \( P_1 = (13, 4) \):}
+
+Substituindo \( x_1 = 13 \) e \( x_2 = 4 \) na matriz Hessiana:
+
+\[
+H_{P_1} = \begin{pmatrix}
+2(1 - 4)^2 & -2 + 2(1 - 2(4) + 13) \\
+-2 + 2(1 - 2(13) + 4) & 2(10 - 13)^2
+\end{pmatrix}
+\]
+
+Calculando cada termo:
+
+\[
+H_{P_1} = \begin{pmatrix}
+2(-3)^2 & -2 + 2(1 - 8 + 13) \\
+-2 + 2(1 - 26 + 4) & 2(-3)^2
+\end{pmatrix}
+= \begin{pmatrix}
+18 & 8 \\
+-44 & 18
+\end{pmatrix}
+\]
+
+\subsubsection{No ponto \( P_2 = (10, 1) \):}
+
+Substituindo \( x_1 = 10 \) e \( x_2 = 1 \) na matriz Hessiana:
+
+\[
+H_{P_2} = \begin{pmatrix}
+2(1 - 1)^2 & -2 + 2(1 - 2(1) + 10) \\
+-2 + 2(1 - 2(10) + 1) & 2(10 - 10)^2
+\end{pmatrix}
+\]
+
+Calculando cada termo:
+
+\[
+H_{P_2} = \begin{pmatrix}
+0 & 14 \\
+-38 & 0
+\end{pmatrix}
+\]
+
+\subsection{Classificação da Matriz Hessiana}
+
+Para determinar a positividade da matriz Hessiana, verificamos os determinantes dos menores principais (os determinantes das submatrizes principais de ordem 1 e 2).
+
+\subsubsection{Ponto \( P_1 = (13, 4) \):}
+
+\begin{itemize}
+    \item \textbf{Primeiro menor principal (ordem 1):} \( H_{11} = 18 \), que é positivo.
+    \item \textbf{Segundo menor principal (ordem 2):} Determinante da matriz \( H_{P_1} \):
+
+    \[
+    \det(H_{P_1}) = (18)(18) - (8)(-44) = 324 + 352 = 676 > 0
+    \]
+
+\end{itemize}
+
+\textbf{Logo,} A matriz Hessiana \( H_{P_1} \) é \textbf{positiva definida} no ponto \( P_1 \).
+
+\subsubsection{Ponto \( P_2 = (10, 1) \):}
+
+\begin{itemize}
+    \item \textbf{Primeiro menor principal (ordem 1):} \( H_{11} = 0 \), que é neutro.
+    \item \textbf{Segundo menor principal (ordem 2):} Determinante da matriz \( H_{P_2} \):
+
+    \[
+    \det(H_{P_2}) = (0)(0) - (14)(-38) = 532 > 0
+    \]
+
+\end{itemize}
+
+\textbf{Logo,} A matriz Hessiana \( H_{P_2} \) é \textbf{indefinida} no ponto \( P_2 \), pois o primeiro menor principal é neutro, e o segundo menor principal é positivo, o que não atende às condições para ser positiva definida.\\ \\ 
+
+\section{Questões 3 e 4}
+
+A seguir, as questões 3 e 4 desenvolvidas no MATLAB, cujos arquivos foram exportados em formato PDF e anexados a este mesmo documento.
+
+
+\newpage
+% REFERENCIAS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\end{document}
