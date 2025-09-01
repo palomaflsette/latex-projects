@@ -164,5 +164,11 @@ Estudo de dados temporais:
 - Previsão de séries temporais
 - Aplicações em sistemas de controle
 
+### ## tecdig
 
+**Técnicas Digitais**
+
+Contém os relatórios de laboratórios da disciplina de Técnicas Digitais
+
+- Lab1: Projeto de circuito utilizando técnicas de minimização com Mapa de Karnaugh.
 ---
